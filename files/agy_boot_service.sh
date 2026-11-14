@@ -62,9 +62,17 @@ try:
     t = d.get("token") if isinstance(d.get("token"), dict) else {}
     acc = t.get("access_token") or d.get("access_token") or ""
     ref = t.get("refresh_token") or d.get("refresh_token") or ""
-    if not (isinstance(acc, str) and acc.strip()) and not (isinstance(ref, str) and ref.strip()):
+    auth_method = d.get("auth_method") or t.get("auth_method") or ""
+    email = d.get("id_token_email") or t.get("id_token_email") or ""
+    acc = acc.strip() if isinstance(acc, str) else ""
+    ref = ref.strip() if isinstance(ref, str) else ""
+    auth_method = auth_method.strip() if isinstance(auth_method, str) else ""
+    email = email.strip() if isinstance(email, str) else ""
+    if not acc and not ref:
         sys.exit(1)
-    print(hashlib.sha256((acc + "\n" + ref).encode("utf-8")).hexdigest())
+    # Exclude ephemeral access_token when refresh_token exists so routine ~1h OAuth refreshes inside agy do not force reloads.
+    identity = f"ref:{ref}\n{auth_method}\n{email}" if ref else f"acc:{acc}\n{auth_method}\n{email}"
+    print(hashlib.sha256(identity.encode("utf-8")).hexdigest())
 except Exception:
     sys.exit(1)
 ' "$HOME" 2>/dev/null
@@ -174,28 +182,12 @@ _runner_main() {
         trap _cleanup_on_sig INT TERM HUP
 
         _inspect_runner_child() {
+            local _sig
+            _sig=$(_token_sig || true)
             "$PREFIX/bin/python3" -B -c '
-import glob, hashlib, json, os, re, sys
+import glob, os, re, sys
 
-state_path, home = sys.argv[1], sys.argv[2]
-
-def read_token_sig():
-    p = os.path.join(home, ".gemini", "antigravity-cli", "antigravity-oauth-token")
-    try:
-        with open(p, "r", encoding="utf-8") as f:
-            d = json.load(f)
-        if not isinstance(d, dict):
-            return "-"
-        t = d.get("token") if isinstance(d.get("token"), dict) else {}
-        acc = t.get("access_token") or d.get("access_token") or ""
-        ref = t.get("refresh_token") or d.get("refresh_token") or ""
-        if not (isinstance(acc, str) and acc.strip()) and not (isinstance(ref, str) and ref.strip()):
-            return "-"
-        return hashlib.sha256((acc + "\n" + ref).encode("utf-8")).hexdigest()
-    except Exception:
-        return "-"
-
-cur_sig = read_token_sig()
+state_path, home, cur_sig = sys.argv[1], sys.argv[2], (sys.argv[3] or "-")
 try:
     with open(state_path, "r", encoding="utf-8") as f:
         parts = f.read().strip().split("\t")
@@ -327,7 +319,7 @@ if log_text:
         has_startup_conv = 1
 
 print(f"{leaf_pid} {cur_sig} {launch_sig} {launch_ts} {log_state} {has_startup_conv}")
-' "$RUNNER_STATE" "$HOME" 2>/dev/null
+' "$RUNNER_STATE" "$HOME" "${_sig:--}" 2>/dev/null
         }
 
         _cleanup_elapsed=0
