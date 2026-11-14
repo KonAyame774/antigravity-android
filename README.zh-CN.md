@@ -3,7 +3,7 @@
 # antigravity-android
 
 **作者：** [KonAyame774](https://github.com/KonAyame774)  
-**模块 ID：** `antigravity-android` · **版本：** `v1.0` (`versionCode: 100`)
+**模块 ID：** `antigravity-android` · **版本：** `v1.0.1` (`versionCode: 101`)
 
 适用于 **KernelSU / KernelSU Next / Magisk / APatch** 的 Root 模块，可在 Android 开机时以 `root` 权限自动启动 **Antigravity CLI Remote Control** (`agy remote-control`)，并集成 Termux 环境部署、固定设备主机名补丁、`~/.gemini` 权限与 SELinux 实时同步、空白对话／离线实例自动清理以及 4 语界面。
 
@@ -53,7 +53,7 @@
 5. 保持手机网络连接正常，便于首次安装自动下载软件包和二进制文件。
 
 ### 第二步：下载并刷入模块
-1. 前往本项目的 [**Releases**](https://github.com/KonAyame774/antigravity-android/releases) 页面下载 **`antigravity-android-v1.0.zip`**。
+1. 前往本项目的 [**Releases**](https://github.com/KonAyame774/antigravity-android/releases) 页面下载 **`antigravity-android-v1.0.1.zip`**。
 2. 打开 **KernelSU / KernelSU Next**、**Magisk** 或 **APatch** → 进入“**模块**”→ 点击“**安装／从本地安装**”并选择刚下载的 ZIP 包。
 3. 等待安装脚本自动在 Termux 部署所需软件包（`bash`、`python`、`tmux`、`glibc` 等）、DNS/hosts 配置及 Antigravity CLI 独立可执行文件。
 4. 刷入过程中屏幕会提示选择（**15 秒倒计时**），请按手机**音量键**决定：
@@ -159,7 +159,7 @@ antigravity-android/
 如需从源码打包可刷入的模块 ZIP：
 
 ```bash
-zip -r antigravity-android-v1.0.zip META-INF customize.sh module.prop service.sh files -x '*/__pycache__/*' '*.pyc'
+zip -r antigravity-android-v1.0.1.zip META-INF customize.sh module.prop service.sh LICENSE files -x '*/__pycache__/*' '*.pyc'
 ```
 
 ---

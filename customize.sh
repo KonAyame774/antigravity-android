@@ -682,8 +682,9 @@ else
     fi
 fi
 
+_mod_ver=$(sed -n 's/^version=//p' "$MODPATH/module.prop" 2>/dev/null | head -n 1 | tr -d '\r\n')
 ui_print "****************************************"
-ui_print "$(agy_msg cust_done_title "v1.0")"
+ui_print "$(agy_msg cust_done_title "${_mod_ver:-v1.0.1}")"
 if _is_rc_disabled_now; then
     ui_print "$(agy_msg cust_done_sub_disabled)"
     ui_print "$(agy_msg cust_done_sub_disabled_hint)"

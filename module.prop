@@ -1,6 +1,6 @@
 id=antigravity-android
 name=antigravity-android
-version=v1.0
-versionCode=100
+version=v1.0.1
+versionCode=101
 author=KonAyame774
 description=Runs Antigravity CLI Remote Control as root on Android at boot with a fixed device hostname, auto Termux/glibc provisioning, live ~/.gemini permission & SELinux sync, automatic blank/offline cleanup, 4-language UI, and volume-key toggle.

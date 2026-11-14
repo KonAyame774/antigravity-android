@@ -3,7 +3,7 @@
 # antigravity-android
 
 **Author:** [KonAyame774](https://github.com/KonAyame774)  
-**Module ID:** `antigravity-android` · **Version:** `v1.0` (`versionCode: 100`)
+**Module ID:** `antigravity-android` · **Version:** `v1.0.1` (`versionCode: 101`)
 
 A root module for **KernelSU / KernelSU Next / Magisk / APatch** that runs **Antigravity CLI Remote Control** (`agy remote-control`) on Android at boot as `root`, paired with Termux provisioning, fixed device hostname patching, live permission & SELinux synchronization, automatic cleanup, and a 4-language interface.
 
@@ -53,8 +53,8 @@ Follow these steps in order if this is your first time setting up Antigravity CL
 5. Keep your phone connected to the internet for initial package and binary setup.
 
 ### Step 2: Download & Flash the Module
-1. Download **`antigravity-android-v1.0.zip`** from this repository's [**Releases**](https://github.com/KonAyame774/antigravity-android/releases) page.
-2. Open **KernelSU / KernelSU Next**, **Magisk**, or **APatch** → go to **Modules** → tap **Install** and select `antigravity-android-v1.0.zip`.
+1. Download **`antigravity-android-v1.0.1.zip`** from this repository's [**Releases**](https://github.com/KonAyame774/antigravity-android/releases) page.
+2. Open **KernelSU / KernelSU Next**, **Magisk**, or **APatch** → go to **Modules** → tap **Install** and select `antigravity-android-v1.0.1.zip`.
 3. Wait while the installer automatically configures Termux packages (`bash`, `python`, `tmux`, `glibc`, etc.), DNS/hosts, and downloads the standalone Antigravity CLI binary.
 4. When prompted during flashing (**15-second window**), choose with the volume buttons:
    - **Recommended for beginners — press `Vol +`**: Enables boot auto-start and launches `agy remote-control` right away.
@@ -159,7 +159,7 @@ antigravity-android/
 To package a flashable module zip directly from a clean checkout:
 
 ```bash
-zip -r antigravity-android-v1.0.zip META-INF customize.sh module.prop service.sh files -x '*/__pycache__/*' '*.pyc'
+zip -r antigravity-android-v1.0.1.zip META-INF customize.sh module.prop service.sh LICENSE files -x '*/__pycache__/*' '*.pyc'
 ```
 
 ---

@@ -3,7 +3,7 @@
 # antigravity-android
 
 **作者:** [KonAyame774](https://github.com/KonAyame774)  
-**モジュール ID:** `antigravity-android` · **バージョン:** `v1.0` (`versionCode: 100`)
+**モジュール ID:** `antigravity-android` · **バージョン:** `v1.0.1` (`versionCode: 101`)
 
 **KernelSU / KernelSU Next / Magisk / APatch** 向けの Root モジュールです。Android 起動時に `root` 権限で **Antigravity CLI Remote Control** (`agy remote-control`) を自動起動し、Termux 環境構築、固定ホスト名パッチ、`~/.gemini` の権限・SELinux リアルタイム同期、空スレッド／オフラインインスタンスの自動クリーンアップ、4言語 UI を統合します。
 
@@ -53,7 +53,7 @@ Android で初めて Antigravity CLI Remote Control をセットアップする�
 5. 初回パッケージおよびバイナリの取得のため、端末をインターネットに接続した状態にしておきます。
 
 ### ステップ 2：モジュールのダウンロードとフラッシュ
-1. 本リポジトリの [**Releases**](https://github.com/KonAyame774/antigravity-android/releases) ページから **`antigravity-android-v1.0.zip`** をダウンロードします。
+1. 本リポジトリの [**Releases**](https://github.com/KonAyame774/antigravity-android/releases) ページから **`antigravity-android-v1.0.1.zip`** をダウンロードします。
 2. **KernelSU / KernelSU Next**、**Magisk**、または **APatch** を開き、「**モジュール**」→「**インストール**」からダウンロードした ZIP を選択します。
 3. インストーラーが Termux パッケージ（`bash`、`python`、`tmux`、`glibc` など）、DNS/hosts 設定、および Antigravity CLI スタンドアロンバイナリを自動導入するまで待ちます。
 4. フラッシュ中に音量キーの選択プロンプトが表示されたら（**15 秒以内**）、音量ボタンで選択します：
@@ -159,7 +159,7 @@ antigravity-android/
 ソースからフラッシュ可能なモジュール ZIP を作成するには：
 
 ```bash
-zip -r antigravity-android-v1.0.zip META-INF customize.sh module.prop service.sh files -x '*/__pycache__/*' '*.pyc'
+zip -r antigravity-android-v1.0.1.zip META-INF customize.sh module.prop service.sh LICENSE files -x '*/__pycache__/*' '*.pyc'
 ```
 
 ---
