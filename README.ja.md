@@ -41,16 +41,61 @@
 
 ---
 
-## インストール手順
+## 初心者向け完全ガイド（最初から手順解説）
 
-1. **Termux** をインストールし、一度起動して初期セットアップを完了させます。
-2. **Releases** から `antigravity-android-v1.0.zip` をダウンロードします（下記手順でソースから作成することも可能です）。
-3. **KernelSU / KernelSU Next**、**Magisk**、または **APatch** で ZIP をフラッシュします。
-4. フラッシュ中の画面案内に従い、音量キーで選択します：
-   - **`音量 +`**：自動起動を有効化し、今すぐ `agy remote-control` を起動（または再起動）します。
-   - **`音量 -`**：自動起動を無効のままにします（`~/.gemini/config/remote_control` を `0` に設定）。
+Android で初めて Antigravity CLI Remote Control をセットアップする場合は、以下の手順通りに進めてください：
+
+### ステップ 1：Root 権限と Termux の準備
+1. 端末が ARM64 (`aarch64`) であり、**KernelSU** / **KernelSU Next** / **Magisk** / **APatch** で Root 化されていることを確認します。
+2. [GitHub Releases (`termux/termux-app`)](https://github.com/termux/termux-app/releases) または **F-Droid** から **Termux** をインストールします *（Google Play 版は古いため非推奨です）*。
+3. インストール後、**Termux** を一度起動して `$` プロンプトが表示されるまで待ち、初期セットアップを完了させます。
+4. **Root 管理アプリで Termux に Root 権限を付与** します *（KernelSU / APatch の場合は「スーパーユーザー」タブで Termux を有効化、Magisk の場合は `su` 許可ダイアログを承認）*。
+5. 初回パッケージおよびバイナリの取得のため、端末をインターネットに接続した状態にしておきます。
+
+### ステップ 2：モジュールのダウンロードとフラッシュ
+1. 本リポジトリの [**Releases**](https://github.com/KonAyame774/antigravity-android/releases) ページから **`antigravity-android-v1.0.zip`** をダウンロードします。
+2. **KernelSU / KernelSU Next**、**Magisk**、または **APatch** を開き、「**モジュール**」→「**インストール**」からダウンロードした ZIP を選択します。
+3. インストーラーが Termux パッケージ（`bash`、`python`、`tmux`、`glibc` など）、DNS/hosts 設定、および Antigravity CLI スタンドアロンバイナリを自動導入するまで待ちます。
+4. フラッシュ中に音量キーの選択プロンプトが表示されたら（**15 秒以内**）、音量ボタンで選択します：
+   - **初心者におすすめ — `音量 +` を押す**：自動起動を有効化し、すぐに `agy remote-control` を起動します。
+   - **`音量 -` を押す**：自動起動を無効のまま導入します（`~/.gemini/config/remote_control` が `0` に設定され、あとから `agy-start` でいつでも起動可能）。
    - *(スクリプト等からの無人実行)* 事前に `AGY_START_ON_FLASH=1`、`0`、`keep` を指定できます。
-5. 新しい Termux セッションを開く（または `source ~/.bashrc` を実行する）と `agy-*` コマンドが読み込まれます。未ログインの場合は Termux 上で Antigravity CLI のログインを済ませてください。
+5. フラッシュ完了時のメッセージを確認します：
+   - 起動時自動実行を確認したい場合や再起動が推奨された場合は「**再起動**」します。
+   - すでに起動完了（またはログイン待機状態）と表示されている場合は、再起動せずそのままステップ 3 へ進めます。
+
+### ステップ 3：Google アカウントでログイン（初回のみ必須）
+1. 一度 **Termux を完全に終了して開き直す**（または `source ~/.bashrc` を実行する）ことで、`agy-*` 管理コマンドを読み込みます。
+2. Termux で次を実行します：
+   ```bash
+   agy
+   ```
+3. 画面の案内に従い、ブラウザで Google アカウントにログインして Termux に戻ります。
+4. **手動で `agy remote-control` を実行する必要はありません**：
+   - 認証トークン（`~/.gemini/antigravity-cli/antigravity-oauth-token`）が保存されると、バックグラウンドサービスが数秒以内に自動検知してオンライン化します。
+   - ステップ 2 で `音量 -` を選んだ場合は、ログイン完了後に `agy-start` を 1 回実行してください。
+
+### ステップ 4：接続状態の確認と Web からの接続
+1. Termux で次を実行します：
+   ```bash
+   agy-status
+   ```
+   プロセスが稼働中で `Connection status:` の接続状態および固定ホスト名（例：`localhost-<device>`）が表示されることを確認します。
+2. スマホ・PC・タブレットのブラウザで **[https://antigravity.google.com](https://antigravity.google.com)** を開き、**同じ Google アカウント** でログインします。
+3. 左上の端末セレクタから **`localhost-<device>`** を選ぶと、リモート操作を開始できます。
+
+### ステップ 5：日常の使い方とトラブルシューティング
+- **実行中のコンソール確認（`agy-attach`）**：`agy-attach` で稼働中の `tmux` 画面を確認できます。サービスを止めずに抜けるときは **`Ctrl+B` のあと `D`** を押してください *（`Ctrl+C` はプロセス終了になるため押さないでください）*。
+- **手動での起動／停止／再起動**：
+  - `agy-start`：サービスを起動し自動起動を有効化
+  - `agy-stop`：サービスを停止し自動起動を無効化
+  - `agy-restart`：バックグラウンドサービスを再起動
+- **表示言語の切り替え**：`agy-lang ja`（`en`、`zh-TW`、`zh-CN`、`ja`、`auto` が利用可能）。
+- **よくあるつまずきポイント**：
+  - **`agy-status: command not found` と出る**：Termux を開き直すか `source ~/.bashrc` を実行してください。
+  - **`su` 権限エラー（Permission denied）**：KernelSU / Magisk / APatch 側で **Termux** に Root 権限が付与されているか確認してください。
+  - **再起動後もオフラインのまま**：`agy-log` を実行して起動時のネットワーク接続状況やステップ 3（`agy` でのログイン）が完了しているか確認してください。
+  - **空会話や古いオフライン端末が残る**：定期クリーンアップで自動削除されますが、`agy-clean` で即座に手動削除も可能です。
 
 ---
 

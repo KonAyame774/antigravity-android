@@ -41,16 +41,61 @@ A root module for **KernelSU / KernelSU Next / Magisk / APatch** that runs **Ant
 
 ---
 
-## Installation
+## Beginner Step-by-Step Guide (Start to Finish)
 
-1. Install **Termux** and open it at least once to finish initializing its environment.
-2. Download `antigravity-android-v1.0.zip` from **Releases** (or package one from source as shown below).
-3. Flash the zip in **KernelSU / KernelSU Next**, **Magisk**, or **APatch**.
-4. Use the volume keys when prompted during flashing:
-   - **`Vol +`**: Enable auto-start and start (or restart) `agy remote-control` now.
-   - **`Vol -`**: Leave Remote Control disabled (`~/.gemini/config/remote_control` set to `0`).
-   - *(Optional for scripted installs)* Set `AGY_START_ON_FLASH=1`, `0`, or `keep` before calling the installer.
-5. Open a new Termux session (or run `source ~/.bashrc`) to load the `agy-*` helper commands, and ensure you are signed in to Antigravity CLI if you have not logged in yet.
+Follow these steps in order if this is your first time setting up Antigravity CLI Remote Control on Android:
+
+### Step 1: Prepare Root Permissions & Termux
+1. Confirm your Android device is ARM64 (`aarch64`) and rooted with **KernelSU**, **KernelSU Next**, **Magisk**, or **APatch**.
+2. Install **Termux** from [GitHub Releases (`termux/termux-app`)](https://github.com/termux/termux-app/releases) or **F-Droid** *(avoid the outdated Google Play build)*.
+3. Open **Termux** at least once and wait until the `$` shell prompt appears so initial setup completes.
+4. **Grant Root access to Termux** in your root manager *(in KernelSU / APatch open the Superuser tab and enable root for Termux; in Magisk approve the `su` prompt when asked)*.
+5. Keep your phone connected to the internet for initial package and binary setup.
+
+### Step 2: Download & Flash the Module
+1. Download **`antigravity-android-v1.0.zip`** from this repository's [**Releases**](https://github.com/KonAyame774/antigravity-android/releases) page.
+2. Open **KernelSU / KernelSU Next**, **Magisk**, or **APatch** → go to **Modules** → tap **Install** and select `antigravity-android-v1.0.zip`.
+3. Wait while the installer automatically configures Termux packages (`bash`, `python`, `tmux`, `glibc`, etc.), DNS/hosts, and downloads the standalone Antigravity CLI binary.
+4. When prompted during flashing (**15-second window**), choose with the volume buttons:
+   - **Recommended for beginners — press `Vol +`**: Enables boot auto-start and launches `agy remote-control` right away.
+   - **Press `Vol -`**: Installs the module without enabling auto-start (`~/.gemini/config/remote_control` is set to `0`; you can turn it on anytime later with `agy-start`).
+   - *(Automated / scripted flash)* Set `AGY_START_ON_FLASH=1`, `0`, or `keep` before flashing.
+5. Check the end of the flash output:
+   - If you want a clean boot test or your root manager recommends it, tap **Reboot**.
+   - If the installer reports that the service is already started (or standby waiting for login), you can proceed straight to Step 3 without rebooting.
+
+### Step 3: Sign In to Google (First-Time Setup)
+1. **Close and reopen Termux completely** (or run `source ~/.bashrc`) so the `agy-*` helper commands load into your shell.
+2. Run:
+   ```bash
+   agy
+   ```
+3. Follow the on-screen sign-in prompt to log in with your Google account in your browser and return to Termux once finished.
+4. You do **not** need to run `agy remote-control` manually:
+   - Once your OAuth token is saved (`~/.gemini/antigravity-cli/antigravity-oauth-token`), the background service automatically detects it and brings Remote Control online within a few seconds.
+   - If you pressed `Vol -` during installation earlier, run `agy-start` once to enable and launch it.
+
+### Step 4: Verify Status & Connect from Antigravity Web
+1. In Termux, run:
+   ```bash
+   agy-status
+   ```
+   Wait until you see the process running and `Connection status:` showing online (along with your fixed device hostname, e.g. `localhost-<device>`).
+2. Open **[https://antigravity.google.com](https://antigravity.google.com)** in any browser (on your phone, PC, or tablet) and sign in with the **same Google account**.
+3. Open the host/device selector in the top-left corner and pick **`localhost-<device>`** to start using Antigravity remotely.
+
+### Step 5: Daily Usage & Troubleshooting
+- **View live `tmux` console (`agy-attach`)**: Run `agy-attach` to inspect the live `agy remote-control` screen. To exit the viewer **without stopping the service**, press **`Ctrl+B` then `D`** *(do not press `Ctrl+C`)*.
+- **Start / Stop / Restart manually**:
+  - `agy-start` — Start the service and enable boot auto-start
+  - `agy-stop` — Stop the service and disable boot auto-start
+  - `agy-restart` — Cleanly restart the background service
+- **Switch display language**: Run `agy-lang zh-TW` (or `en`, `zh-CN`, `ja`, `auto`).
+- **Common issues**:
+  - **`agy-status: command not found`**: Reopen Termux or run `source ~/.bashrc`.
+  - **Root / `su` permission denied**: Open KernelSU / Magisk / APatch and confirm **Termux** is granted root access.
+  - **Still offline after reboot**: Run `agy-log` to check whether the device had internet at boot or still needs Step 3 (`agy` Google sign-in).
+  - **Extra blank conversations or old offline entries**: Background cleanup removes them automatically; you can also run `agy-clean` to clean immediately.
 
 ---
 

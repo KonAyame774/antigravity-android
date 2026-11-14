@@ -41,16 +41,61 @@
 
 ---
 
-## 安裝方式
+## 新手完整使用教學（從零開始）
 
-1. 安裝 **Termux** 並至少開啟一次以完成基礎環境初始化。
-2. 至 **Releases** 下載 `antigravity-android-v1.0.zip`（或依下方指令自行從原始碼打包）。
-3. 在 **KernelSU / KernelSU Next**、**Magisk** 或 **APatch** 中刷入該 ZIP 模組。
-4. 刷入過程中依畫面提示以音量鍵選擇：
-   - **`音量 +`**：啟用自動啟動，並立即啟動（或重啟）`agy remote-control`。
-   - **`音量 -`**：停用遠端控制自動啟動（將 `~/.gemini/config/remote_control` 設為 `0`）。
-   - *(進階／腳本刷入)* 可預先指定 `AGY_START_ON_FLASH=1`、`0` 或 `keep`。
-5. 開啟新的 Termux 工作階段（或執行 `source ~/.bashrc`）即可載入 `agy-*` 指令；若尚未登入 Antigravity CLI，請先於 Termux 完成登入。
+如果是第一次在 Android 設定 Antigravity CLI Remote Control，請照以下步驟依序操作即可：
+
+### 第一步：準備 Root 權限與 Termux
+1. 確認手機為 ARM64 (`aarch64`) 裝置且已取得 Root 權限（**KernelSU**、**KernelSU Next**、**Magisk** 或 **APatch**）。
+2. 從 [GitHub Releases (`termux/termux-app`)](https://github.com/termux/termux-app/releases) 或 **F-Droid** 下載並安裝 **Termux** *（請勿使用已停止維護的 Google Play 版本）*。
+3. 安裝後打開 **Termux** 至少一次，等到畫面出現 `$` 輸入提示字元，代表基礎環境初始化完成。
+4. **把 Root 權限授權給 Termux** *（例如在 KernelSU / APatch 開啟「超級使用者」分頁並打開 Termux 的開關；Magisk 則在跳出授權視窗時點允許）*。
+5. 保持手機網路連線正常，方便首次安裝時自動下載套件與程式。
+
+### 第二步：下載並刷入模組
+1. 到本專案的 [**Releases**](https://github.com/KonAyame774/antigravity-android/releases) 頁面下載 **`antigravity-android-v1.0.zip`**。
+2. 開啟 **KernelSU / KernelSU Next**、**Magisk** 或 **APatch** → 進入「**模組**」→ 點「**安裝／從本地安裝**」並選擇剛下載的 ZIP 檔。
+3. 等待安裝腳本自動在 Termux 佈署必要套件（`bash`、`python`、`tmux`、`glibc` 等）、DNS/hosts 設定與 Antigravity CLI 獨立執行檔。
+4. 刷入過程中畫面會詢問（**15 秒倒數**），請按手機**音量鍵**選擇：
+   - **推薦新手直接按 `音量 +`**：開啟開機自動啟動，並立刻在背景啟動 `agy remote-control`。
+   - **按 `音量 -`**：先不開啟自動啟動（將 `~/.gemini/config/remote_control` 設為 `0`，之後隨時可輸入 `agy-start` 開啟）。
+   - *(進階／腳本刷入)* 也可在刷入前設定環境變數 `AGY_START_ON_FLASH=1`、`0` 或 `keep`。
+5. 查看刷入結尾提示：
+   - 若管理程式建議重開機、或想完整確認開機自啟效果，點選「**重新啟動**」。
+   - 若畫面已顯示服務啟動完成（或處於待機等待登入狀態），也可先不重開機直接進下一步。
+
+### 第三步：登入 Google 帳號（首次使用必做）
+1. 先**徹底關閉再重新打開 Termux**（或在終端機輸入 `source ~/.bashrc`），載入 `agy-*` 管理指令。
+2. 在 Termux 輸入：
+   ```bash
+   agy
+   ```
+3. 依照畫面引導完成 Google 帳號登入（複製或開啟登入連結完成授權後回到 Termux）。
+4. **不需要自己手動輸入 `agy remote-control`**：
+   - 當登入憑證（`~/.gemini/antigravity-cli/antigravity-oauth-token`）產生後，背景模組會在幾秒內自動偵測並重啟讓 Remote Control 上線。
+   - 如果你在第二步按了 `音量 -`（先停用），登入後請再輸入一次 `agy-start` 即可開啟並啟動服務。
+
+### 第四步：確認狀態並從網頁遠端連線
+1. 在 Termux 輸入：
+   ```bash
+   agy-status
+   ```
+   確認服務已啟動且顯示 `Connection status:` 上線狀態（以及固定裝置名稱，例如 `localhost-<device>`）。
+2. 用手機瀏覽器、電腦或平板打開 **[https://antigravity.google.com](https://antigravity.google.com)**，登入**同一個 Google 帳號**。
+3. 點擊左上角裝置下拉選單，選擇 **`localhost-<device>`**，就可以開始遠端操作了！
+
+### 第五步：日常操作與小白排錯速查
+- **查看即時畫面（`agy-attach`）**：想看目前 `agy remote-control` 背景視窗輸出時輸入 `agy-attach`；看完想離開且**保持背景繼續跑**，請依序按 **`Ctrl+B` 再按 `D`** *（千萬不要按 `Ctrl+C`，否則會中止服務）*。
+- **手動開關／重啟**：
+  - `agy-start`：啟動服務並開啟開機自啟
+  - `agy-stop`：停止服務並關閉自動啟動
+  - `agy-restart`：重新啟動背景服務
+- **切換提示語言**：輸入 `agy-lang zh-TW`（可選 `zh-TW`、`zh-CN`、`en`、`ja` 或 `auto`）。
+- **常見問題排解**：
+  - **出現 `agy-status: command not found`**：代表環境還沒重載，關掉 Termux 重開或執行 `source ~/.bashrc`。
+  - **顯示 `su` 沒權限 / Permission denied**：到 KernelSU / Magisk / APatch 檢查是否有把 **Termux** 的 Root 權限打開。
+  - **重開機後還沒上線**：輸入 `agy-log` 檢查是否開機當下還沒連上網，或還沒執行過第三步的 `agy` 登入 Google。
+  - **網頁看到多餘空白對話或離線舊裝置**：背景會定期自動清理，也可手動輸入 `agy-clean` 立刻清乾淨。
 
 ---
 
