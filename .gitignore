@@ -1,0 +1,22 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Runtime logs, tokens, and locks
+*.log
+.ls_csrf_token
+*.lock
+*.pid
+
+# Editor and OS temporary files
+*.bak
+*.tmp
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Release archives
+*.zip
+*.tar.gz
