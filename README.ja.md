@@ -202,3 +202,4 @@ Antigravity CLI を使用することで、Google 利用規約および Google �
 - **開発手法:** 本プロジェクトは **Antigravity CLI** 上で AI 支援開発（**Vibe Coding**）により作成され、使用モデルは **Gemini 4 Hydrogen** および **Gemini 3.8 Flash** です。その上で上記の実機端末・OS 環境にて検証およびデバッグを行っています。
 - **上流バイナリ:** [wallentx/antigravity-cli-termux](https://github.com/wallentx/antigravity-cli-termux)
 - **モジュール作者:** [KonAyame774](https://github.com/KonAyame774)
+- **ライセンス:** [GNU General Public License v3.0](LICENSE) —— 本ライセンスは本リポジトリ内のモジュールスクリプトおよびソースファイルにのみ適用されます。実行時に別途ダウンロードされるサードパーティ製パッケージおよび Antigravity CLI バイナリには、それぞれのライセンスおよび利用規約が適用されます。

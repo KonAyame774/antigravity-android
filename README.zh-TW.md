@@ -202,3 +202,4 @@ zip -r antigravity-android-v1.0.zip META-INF customize.sh module.prop service.sh
 - **開發方式：** 本專案透過 **Antigravity CLI** 以 AI 輔助開發（**Vibe Coding**）方式完成，使用模型為 **Gemini 4 Hydrogen** 與 **Gemini 3.8 Flash**，並已於上述實機裝置與系統環境完成實測與除錯。
 - **上游二進位檔：** [wallentx/antigravity-cli-termux](https://github.com/wallentx/antigravity-cli-termux)
 - **模組作者：** [KonAyame774](https://github.com/KonAyame774)
+- **授權條款：** [GNU General Public License v3.0](LICENSE) —— 本授權僅適用於本倉庫內的模組腳本與原始碼檔案；安裝或執行時另外下載的第三方套件與 Antigravity CLI 二進位執行檔，仍各自受其原本授權與服務條款規範。

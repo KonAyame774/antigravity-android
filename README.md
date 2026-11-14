@@ -202,3 +202,4 @@ By using Antigravity CLI, you agree to help improve the product by allowing Goog
 - **Development Method:** Built with AI-assisted development (**vibe coding**) using **Gemini 4 Hydrogen** and **Gemini 3.8 Flash** in **Antigravity CLI**, then tested and debugged on the device and OS listed above.
 - **Upstream Binary:** [wallentx/antigravity-cli-termux](https://github.com/wallentx/antigravity-cli-termux)
 - **Module Author:** [KonAyame774](https://github.com/KonAyame774)
+- **License:** [GNU General Public License v3.0](LICENSE) — applies solely to the module scripts and files authored in this repository; third-party packages and the Antigravity CLI binary downloaded at runtime remain governed by their respective licenses and terms.
